@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const router  = express.Router();
 const pool = require("../db");
+const authenticateToken = require("../middleware/auth");
+
 
 
 saltRounds = 10;
@@ -61,6 +63,11 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+router.get("/protected", authenticateToken, (req, res) => {
+  res.json({ message: `Hello ${req.user.email}, you accessed a protected route!` });
+});
+
 
 
 

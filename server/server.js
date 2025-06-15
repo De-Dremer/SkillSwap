@@ -2,11 +2,17 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const authRoutes = require("./routes/auth");
+const skillRoutes = require("./routes/skills");
+const desiredSkillRoutes = require('./routes/desiredSkills.js');
+const matchmakingRoutes = require('./routes/matchmaking.js');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth",authRoutes);
+app.use("/api/skills",skillRoutes);
+app.use("/api/desired-skills",desiredSkillRoutes);
+app.use("/api",matchmakingRoutes);
 
 const db = require('./db');
 const bcrypt = require('bcrypt');
@@ -40,6 +46,7 @@ app.post("/users",async (req,res)=>{
         res.status(500).send({ error: 'Failed to add user' });
     }
 });
+
 
 
 const PORT = process.env.PORT || 5000 ;
